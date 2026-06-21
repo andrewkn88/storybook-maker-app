@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>그림동화책 만들기 앱</title>
+  <style>
+    :root{
+      --bg:#f7f1e8; --paper:#fffdf8; --ink:#2f2a24; --muted:#7b6d5f;
+      --brand:#0f766e; --brand2:#0ea5a3; --line:#eadfce; --soft:#fff6e5;
+      --pink:#ffedf2; --yellow:#fff4c2; --green:#e8f7ef; --shadow:0 14px 35px rgba(80,55,22,.12);
+    }
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 15% 10%,#fff8d9 0 18%,transparent 35%),linear-gradient(135deg,#f7efe1,#eef8f4);color:var(--ink);font-family:system-ui,-apple-system,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.55}
+    .wrap{max-width:1120px;margin:auto;padding:28px 16px 60px}.hero{background:linear-gradient(135deg,#fffdf8,#fef3c7 55%,#dcfce7);border:1px solid var(--line);border-radius:30px;padding:30px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"📚✨";position:absolute;right:25px;top:18px;font-size:54px;opacity:.35}.date{color:var(--muted);font-size:14px}.credit{display:inline-block;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:#6b4f2d;font-weight:700}.hero h1{margin:8px 0 0;font-size:clamp(28px,5vw,48px)}
+    .toolbar{margin:18px 0;background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}.ai-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.ai-btn,.btn{border:0;border-radius:14px;padding:11px 16px;cursor:pointer;font-weight:800;background:#fff;border:1px solid var(--line);color:var(--ink)}.ai-btn.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 8px 18px rgba(15,118,110,.22)}.guide{margin-top:10px;color:var(--muted);font-size:14px}
+    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}.step-tab{padding:12px 8px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:900}.step-tab.active{background:#134e4a;color:#fff}.card{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:22px;margin:16px 0;box-shadow:var(--shadow)}.card h2{margin:0 0 10px;font-size:28px}.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px}.sub{color:var(--muted);margin:4px 0 12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}label{font-weight:800;display:block;margin-bottom:6px}input,textarea,select{width:100%;border:1px solid #ddd2c1;border-radius:14px;padding:12px;background:#fff;color:var(--ink);font:inherit}textarea{min-height:120px;resize:vertical}.prompt{white-space:pre-wrap;background:#fcfaf5;border:1px dashed #d8c9b4;border-radius:16px;padding:14px;min-height:100px}.btn{background:var(--brand);color:#fff;border-color:var(--brand);margin:6px 6px 0 0}.btn.secondary{background:#fff;color:var(--brand)}.btn.warn{background:#b45309;border-color:#b45309}.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}.mini-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.mini-card h3{margin:0 0 8px;color:#0f766e}.hide{display:none}.footer{text-align:center;color:var(--muted);margin-top:24px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1f2937;color:#fff;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:5}.toast.show{opacity:1}@media(max-width:800px){.grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.hero{padding:22px}.card h2{font-size:23px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="date">수정일자: 2026-06-21</div>
+    <h1>이경하선생님의 동화책 만들기 앱</h1>
+    <div class="credit">이경아님의 앱을 차용함 · Made by 이경하선생님</div>
+  </section>
+
+  <section class="toolbar">
+    <b>사용 중인 AI 도구를 선택하세요</b>
+    <div class="ai-row" id="aiTools">
+      <button class="ai-btn" data-ai="Claude">Claude</button>
+      <button class="ai-btn active" data-ai="ChatGPT">ChatGPT ✨</button>
+      <button class="ai-btn" data-ai="Gemini">Gemini</button>
+    </div>
+    <div class="guide" id="aiGuide">ChatGPT — 표 형식이 호환됩니다. 표 복사 후 그대로 붙여넣으세요.</div>
+  </section>
+
+  <nav class="steps" id="tabs">
+    <button class="step-tab active" data-step="1">1단계<br>줄거리</button><button class="step-tab" data-step="2">2단계<br>캐릭터</button><button class="step-tab" data-step="3">3단계<br>원고</button><button class="step-tab" data-step="4">4단계<br>이미지</button><button class="step-tab" data-step="5">5단계<br>영상/저장</button>
+  </nav>
+
+  <main>
+    <section class="card step" data-step="1"><h2>1단계 줄거리 만들기</h2><div class="box"><h3>1-1 AI에 요청하기</h3><p class="sub">컨셉트, 대상, 주제를 입력한 뒤 프롬프트를 복사해서 생성형 AI에 붙여넣으세요.</p><div class="grid"><div><label>컨셉트</label><input id="concept" placeholder="예: 우정과 용기"></div><div><label>대상</label><input id="target" placeholder="예: 6~8세 어린이"></div><div><label>주제</label><input id="theme" placeholder="예: 작은 고양이의 모험"></div></div><div class="prompt" id="p1"></div><button class="btn" onclick="copyPrompt('p1')">프롬프트 복사</button></div><div class="box"><h3>1-2 결과 붙여넣기</h3><textarea id="story" placeholder="AI가 만들어준 줄거리를 붙여넣으세요."></textarea></div></section>
+
+    <section class="card step hide" data-step="2"><h2>2단계 캐릭터 만들기</h2><div class="box"><h3>2-1 AI에 요청하기</h3><div class="grid"><div><label>원하는 이미지 스타일</label><input id="style" placeholder="예: 따뜻한 수채화 그림책 스타일"></div><div><label>가로(mm)</label><input id="w" type="number" value="210"></div><div><label>세로(mm)</label><input id="h" type="number" value="210"></div></div><div class="prompt" id="p2"></div><button class="btn" onclick="copyPrompt('p2')">프롬프트 복사</button></div><div class="box"><h3>2-2 결과 붙여넣기</h3><textarea id="characters" placeholder="캐릭터 설정표를 붙여넣으세요."></textarea><div class="result-grid" id="charCards"></div></div></section>
+
+    <section class="card step hide" data-step="3"><h2>3단계 페이지별 원고 만들기</h2><div class="box"><h3>3-1 AI에 요청하기</h3><div class="grid"><div><label>생성할 원고 총 개수(N)</label><input id="pages" type="number" value="12"></div><div><label>한 페이지당 문장 개수(n)</label><input id="sentences" type="number" value="2"></div></div><div class="prompt" id="p3"></div><button class="btn" onclick="copyPrompt('p3')">프롬프트 복사</button></div><div class="box"><h3>3-2 결과 붙여넣기</h3><textarea id="manuscript" placeholder="페이지별 원고 표를 붙여넣으세요."></textarea><div class="result-grid" id="pageCards"></div></div></section>
+
+    <section class="card step hide" data-step="4"><h2>4단계 장면묘사 + 최종 이미지 프롬프트</h2><div class="box"><h3>4-1 AI에 요청하기</h3><div class="prompt" id="p4"></div><button class="btn" onclick="copyPrompt('p4')">프롬프트 복사</button></div><div class="box"><h3>4-2 결과 붙여넣기 (= 최종 이미지 프롬프트)</h3><textarea id="scenes" placeholder="장면묘사 표를 붙여넣으세요."></textarea><div class="result-grid" id="sceneCards"></div></div></section>
+
+    <section class="card step hide" data-step="5"><h2>5단계 영상 프롬프트 만들기 (선택사항)</h2><div class="box"><h3>5-1 AI에 요청하기</h3><label>영상 화면 비율</label><input id="ratio" value="16:9"><div class="prompt" id="p5"></div><button class="btn" onclick="copyPrompt('p5')">영상 프롬프트 생성 요청 복사</button></div><div class="box"><h3>5-2 결과 붙여넣기</h3><textarea id="videos" placeholder="영상 프롬프트 표를 붙여넣으세요."></textarea><div class="result-grid" id="videoCards"></div></div><div class="box"><h3>5-3 작업 내용 저장</h3><button class="btn" onclick="downloadDoc()">작업 내용 워드문서로 저장하기</button><button class="btn warn" onclick="clearAll()">이 브라우저에 저장된 작업 내용 모두 지우기</button><p class="sub">새 작품을 시작할 때 누르세요. 한 번 지우면 되돌릴 수 없습니다.</p></div></section>
+  </main>
+  <div class="footer">이경아님의 앱을 차용함 · Made by 이경하선생님</div>
+</div><div class="toast" id="toast">복사되었습니다</div>
+<script>
+const $=id=>document.getElementById(id); const fields=['concept','target','theme','story','style','w','h','characters','pages','sentences','manuscript','scenes','ratio','videos'];
+let selectedAI=localStorage.getItem('aiTool')||'ChatGPT';
+const guides={Claude:'Claude — 긴 문장 생성과 문체 조정에 좋습니다.',ChatGPT:'ChatGPT — 표 형식이 호환됩니다. 표 복사 후 그대로 붙여넣으세요.',Gemini:'Gemini — 아이디어 확장과 장면 묘사에 좋습니다.'};
+function toast(t='복사되었습니다'){const el=$('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1400)}
+function val(id){return $(id)?.value?.trim()||''} function save(){fields.forEach(id=>localStorage.setItem('sb_'+id,val(id))); localStorage.setItem('aiTool',selectedAI)}
+function load(){fields.forEach(id=>{if($(id)&&localStorage.getItem('sb_'+id)!==null)$(id).value=localStorage.getItem('sb_'+id)});setAI(selectedAI,false);renderAll();makePrompts()}
+function setAI(ai,notify=true){selectedAI=ai;document.querySelectorAll('.ai-btn').forEach(b=>b.classList.toggle('active',b.dataset.ai===ai));$('aiGuide').textContent=guides[ai];save();if(notify)toast(ai+' 선택됨')}
+function makePrompts(){
+ $('p1').textContent=`[1-1단계]\n- 컨셉트: <${val('concept')||'______________________________'}>\n- 대상: <${val('target')||'______________________________'}>\n- 주제: <${val('theme')||'______________________________'}>\n\n★★주어진 컨셉트, 대상, 주제를 바탕으로, 그림동화책 줄거리 500자 정도 작성해줘.\n※세부 규칙\n- 전체 이야기는 기승전결 구조를 따를 것\n- 어린이가 이해하기 쉬운 문장으로 쓸 것\n- 따뜻하고 긍정적인 결말로 마무리할 것`;
+ $('p2').textContent=`[2-1단계]\n- 원하는 이미지 스타일: <${val('style')||'입력한 스타일'}>\n- 이미지 크기: <가로 ${val('w')||'___'}mm × 세로 ${val('h')||'___'}mm>\n- 1단계에서 생성한 줄거리: <${val('story')||'1단계 결과 붙여넣기 내용'}>\n\n★★위 줄거리를 기준으로 주요 인물을 추출하고, 각 인물별 캐릭터 참조 이미지용 프롬프트를 작성해줘.\n※세부규칙:\n- 대상 연령에 맞는 이미지 스타일과 캐릭터를 설정할 것.\n- 각 인물은 고유한 캐릭터로 인식될 수 있도록 작성할 것.\n- 모든 캐릭터는 전신이 명확히 보이는 참조 이미지 기준으로 작성할 것.\n- 출력은 표 형식으로: 캐릭터 이름 / 역할 요약 / 캐릭터 참조 이미지용 프롬프트`;
+ $('p3').textContent=`[3-1단계]\n- 생성할 원고 총 개수 (N): <${val('pages')||'입력한 원고 개수'}>\n- 한페이지당 문장 개수(n): <${val('sentences')||'입력한 문장 개수'}>\n- 1단계에서 생성한 줄거리: <${val('story')||'1단계 결과 붙여넣기 내용'}>\n- 캐릭터 설정표: <${val('characters')||'2단계 캐릭터 설정표 내용'}>\n\n★★위 줄거리와 캐릭터 설정표를 기준으로 원고 총 개수만큼의 원고를 페이지별로 나눠서 작성해줘.\n※세부규칙:\n- 동화책에 들어갈 실제 글이므로 캐릭터 이름 앞에 외형 묘사를 반복하지 말 것.\n- 출력은 표 형식으로: 페이지 / 원고\n- 이미지 생성 도구는 쓰지 말고 텍스트로만 답해줘.`;
+ $('p4').textContent=`[4-1단계]\n- 캐릭터 설정표: <${val('characters')||'2단계 캐릭터 설정표 내용'}>\n- 페이지별 원고: <${val('manuscript')||'3단계 페이지별 원고 내용'}>\n\n★★위 페이지별 원고와 캐릭터 설정표를 기준으로, 배경이미지 프롬프트를 작성해줘.\n※세부규칙:\n- 캐릭터가 등장할 때마다 캐릭터 설정표의 외형·질감·표정·체형·의상 묘사를 빠짐없이 포함할 것.\n- 각 페이지 원고에 어울리는 배경, 인물 배치, 감정, 분위기, 행동을 구체적으로 묘사할 것.\n- 프롬프트 끝에 반드시 “텍스트 없는 순수 일러스트(textless pure illustration, no text, no words)”를 포함할 것.\n- 출력 표: 페이지 또는 장면 / 장면묘사 프롬프트`;
+ $('p5').textContent=`[5-1단계]\n- 영상 화면 비율: <${val('ratio')||'16:9'}>\n- 최종 이미지 프롬프트: <${val('scenes')||'4단계 장면묘사 내용'}>\n\n★★위 장면별 이미지 프롬프트를 바탕으로 영상 생성용 프롬프트를 작성해줘.\n※세부규칙:\n- 카메라 움직임, 인물 행동, 표정 변화, 분위기를 포함할 것.\n- 과도한 장면 전환 없이 그림책 감성을 유지할 것.\n- 출력 표: 장면 / 영상 프롬프트 / 짧은 대사 또는 내레이션`;
+}
+function copyPrompt(id){navigator.clipboard.writeText($(id).textContent).then(()=>toast()).catch(()=>toast('복사 실패'))}
+function rows(text){return text.split('\n').map(x=>x.trim()).filter(x=>x&&!/^[-|: ]+$/.test(x)).filter(x=>!x.includes('---')).map(line=>line.split(/\t|\s*\|\s*/).filter(Boolean));}
+function renderCards(text,box,titlePrefix,append=''){const out=$(box);out.innerHTML='';rows(text).forEach((r,i)=>{if(i===0&&/(페이지|원고|캐릭터|프롬프트|역할|장면)/.test(r.join('')))return;const title=r[0]||`${titlePrefix} ${i+1}`;const body=(r.slice(1).join('<br>')||r[0]||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');const final=(body+' '+append).trim();const div=document.createElement('div');div.className='mini-card';div.innerHTML=`<h3>${title}</h3><p>${final}</p><button class="btn secondary">복사</button>`;div.querySelector('button').onclick=()=>navigator.clipboard.writeText((title+'\n'+final).replace(/<br>/g,'\n')).then(()=>toast());out.appendChild(div)});}
+function renderAll(){renderCards(val('characters'),'charCards','캐릭터');renderCards(val('manuscript'),'pageCards','페이지');renderCards(val('scenes'),'sceneCards','장면',` ${val('style')?'/ '+val('style'):''} ${val('w')&&val('h')?'/ '+val('w')+'mm × '+val('h')+'mm':''}`);renderCards(val('videos'),'videoCards','영상')}
+function switchStep(n){document.querySelectorAll('.step').forEach(s=>s.classList.toggle('hide',s.dataset.step!==n));document.querySelectorAll('.step-tab').forEach(b=>b.classList.toggle('active',b.dataset.step===n));window.scrollTo({top:0,behavior:'smooth'})}
+function downloadDoc(){save();const html=`<html><head><meta charset='utf-8'></head><body><h1>그림동화책 만들기 작업 내용</h1><p>이경아님의 앱을 차용함 · Made by 이경하선생님</p><h2>1. 줄거리</h2><p>${val('story').replaceAll('\n','<br>')}</p><h2>2. 캐릭터</h2><p>${val('characters').replaceAll('\n','<br>')}</p><h2>3. 페이지별 원고</h2><p>${val('manuscript').replaceAll('\n','<br>')}</p><h2>4. 이미지 프롬프트</h2><p>${val('scenes').replaceAll('\n','<br>')}</p><h2>5. 영상 프롬프트</h2><p>${val('videos').replaceAll('\n','<br>')}</p></body></html>`;const blob=new Blob(['\ufeff',html],{type:'application/msword'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='storybook-work.doc';a.click();URL.revokeObjectURL(a.href)}
+function clearAll(){if(confirm('저장된 작업 내용을 모두 지울까요?')){fields.forEach(id=>localStorage.removeItem('sb_'+id));location.reload()}}
+document.querySelectorAll('.ai-btn').forEach(b=>b.onclick=()=>setAI(b.dataset.ai));document.querySelectorAll('.step-tab').forEach(b=>b.onclick=()=>switchStep(b.dataset.step));fields.forEach(id=>$(id)?.addEventListener('input',()=>{save();makePrompts();renderAll()}));load();
+</script>
+</body>
+</html>
